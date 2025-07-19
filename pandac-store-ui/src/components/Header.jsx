@@ -2,32 +2,33 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faShoppingCart, faSnowman} from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
+    const navLinkClass = "text-center text-lg font-primary font-semibold text-primary py-2";
     return (
-        <header className="header">
-            <div className="container">
-                <a href="/" className="link">
-                    <FontAwesomeIcon icon={faSnowman} className="fa-icon"/>
-                    <span className="brand-title">PandaC Store</span>
+        <header className="border-b border-gray-300 sticky top-0 z-20 bg-gray-100">
+            <div className="flex items-center justify-between mx-auto max-w-[1152px] px-6 py-4">
+                <a href="/" className={navLinkClass}>
+                    <FontAwesomeIcon icon={faSnowman} className="h-8 w-8"/>
+                    <span className="font-bold">PandaC Store</span>
                 </a>
-                <nav className="nav">
-                    <ul>
+                <nav className="flex items-center py-2 z-10">
+                    <ul className={"flex space-x-6"}>
                         <li>
-                            <a href="/" className="link">Home</a>
+                            <a href="/" className={navLinkClass}>Home</a>
                         </li>
                         <li>
-                            <a href="/about" className="link">About</a>
+                            <a href="/about" className={navLinkClass}>About</a>
                         </li>
                         <li>
-                            <a href="/contact" className="link">Contact</a>
+                            <a href="/contact" className={navLinkClass}>Contact</a>
                         </li>
                         <li>
-                            <a href="/login" className="link">Login</a>
+                            <a href="/login" className={navLinkClass}>Login</a>
                         </li>
                         <li>
-                            <a href="/signup" className="link">Sign Up</a>
+                            <a href="/signup" className={navLinkClass}>Sign Up</a>
                         </li>
                         <li>
-                            <a href="/cart" className="link">
+                            <a href="/cart" className={navLinkClass}>
                                 <FontAwesomeIcon icon={faShoppingCart}/>
                             </a>
                         </li>
