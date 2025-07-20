@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap');
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --font-primary: "Josefin Sans";
@@ -7,4 +8,6 @@
     --color-dark: #4C1D95;
     --color-lighter: #F5F3FF;
     --color-light: #DDD6FE;
+    --color-normal-bg: #f3f4f6;
+    --color-dark-bg: #1e2939;
 }
