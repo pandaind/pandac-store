@@ -1,8 +1,9 @@
 import Price from "./Price.jsx";
+import {Link} from "react-router-dom";
 
 const ProductCard = ({product}) => {
     return (
-        <div
+        <Link to={ `/products/${product.productId}`} state={{product}}
             className="w-72 rounded-md mx-auto border border-gray-300 dark:border-gray-600 shadow-md overflow-hidden flex flex-col bg-white dark:bg-gray-800 hover:border-primary dark:hover:border-lighter transition">
             <div className="relative w-full h-72 border-b border-gray-300 dark:border-gray-600">
                 <img
@@ -22,7 +23,7 @@ const ProductCard = ({product}) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 
