@@ -1,0 +1,23 @@
+# Ignore environment files containing sensitive data
+.env
+pandac-store-ui/.env
+pandac-store-backend/.env
+
+# Ignore environment files with secrets (but keep .env.example)
+.env.local
+.env.development
+.env.test
+.env.production
+pandac-store-ui/.env.local
+pandac-store-ui/.env.development
+pandac-store-ui/.env.test
+pandac-store-ui/.env.production
+pandac-store-backend/.env.local
+pandac-store-backend/.env.development
+pandac-store-backend/.env.test
+pandac-store-backend/.env.production
+
+# Ignore Docker secrets
+secrets.env
+
+# ...existing code...

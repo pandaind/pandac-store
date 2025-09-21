@@ -1,0 +1,90 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: pandac-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - pandac-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+      interval: 30s
+      start_period: 30s
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./pandac-store-backend
+      dockerfile: Dockerfile
+    container_name: pandac-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - JPA_SHOW_URL=${JPA_SHOW_URL}
+      - HIBERNATE_FORMAT_SQL=${HIBERNATE_FORMAT_SQL}
+      - STRIPE_API_KEY=${STRIPE_API_KEY}
+      - GIT_TOKEN=${GIT_TOKEN}
+      - GIT_USERNAME=${GIT_USERNAME}
+      - GIT_REPO_URL=${GIT_REPO_URL}
+      - CDN_BASE_URL=${CDN_BASE_URL}
+      - FILE_MAX_SIZE=${FILE_MAX_SIZE}
+      - FILE_MAX_REQUEST_SIZE=${FILE_MAX_REQUEST_SIZE}
+    ports:
+      - "8080:8080"
+    networks:
+      - pandac-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      timeout: 10s
+      retries: 5
+      interval: 30s
+      start_period: 60s
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./pandac-store-ui
+      dockerfile: Dockerfile
+    container_name: pandac-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:80"
+    networks:
+      - pandac-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      timeout: 10s
+      retries: 3
+      interval: 30s
+      start_period: 30s
+
+networks:
+  pandac-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local

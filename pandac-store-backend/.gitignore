@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+logs
 
 ### STS ###
 .apt_generated
@@ -35,3 +36,14 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Ignore environment files containing sensitive data
+.env
+
+# Ignore environment files with secrets (but keep .env.example)
+.env.local
+.env.development
+.env.test
+.env.production
+
+# ...existing code...

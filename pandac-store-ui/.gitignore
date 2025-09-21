@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Ignore environment files containing sensitive data
+.env
+
+# Ignore environment files with secrets (but keep .env.example)
+.env.local
+.env.development
+.env.test
+.env.production
+
+# ...existing code...
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +33,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+cookies.txt
+test-*.js
+
+# Documentation files
+*_FIX.md
+*_GUIDE.md
+*_IMPROVEMENTS.md

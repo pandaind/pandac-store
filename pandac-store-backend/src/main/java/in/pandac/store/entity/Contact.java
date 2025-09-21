@@ -3,19 +3,21 @@ package in.pandac.store.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-
-import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "contacts")
-public class Contact {
+@NamedQuery(name = "Contact.findByStatus",
+        query = "SELECT c FROM Contact c WHERE c.status = :status")
+@NamedNativeQuery(name = "Contact.findByStatusWithNativeQuery",
+        query = "SELECT * FROM contacts WHERE status = :status",
+        resultClass = Contact.class)
+public class Contact extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id", nullable = false)
-    private Long id;
+    private Long contactId;
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
@@ -29,17 +31,7 @@ public class Contact {
     @Column(name = "message", nullable = false, length = 500)
     private String message;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @Column(name = "created_by", nullable = false, length = 20)
-    private String createdBy;
-
-    @Column(name = "updated_at")
-    private Instant updatedAt;
-
-    @Column(name = "updated_by", length = 20)
-    private String updatedBy;
+    @Column(name = "status", nullable = false, length = 50)
+    private String status;
 
 }

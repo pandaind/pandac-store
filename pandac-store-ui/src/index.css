@@ -1,13 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alkatra:wght@400..700&display=swap'); /** odia */
+
 @import "tailwindcss";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --font-primary: "Josefin Sans";
-    --color-primary: #5B21B6;
-    --color-dark: #4C1D95;
+    --font-code: "Google Sans Code";
+    --font-secondary: "Poppins";
+    --font-odia: "Alkatra";
+    --color-primary: #02541d;
+    --color-dark: #2ca415;
     --color-lighter: #F5F3FF;
     --color-light: #DDD6FE;
-    --color-normal-bg: #f3f4f6;
-    --color-dark-bg: #1e2939;
+    --color-normalbg: #f3f4f6;
+    --color-darkbg: #1e2939;
 }

@@ -1,0 +1,17 @@
+logging:
+  level:
+    root: ${LOG_LEVEL:WARN}
+  file:
+    name: ${LOG_FILE_NAME:./logs/app-qa.log}
+
+spring:
+  jpa:
+    show-sql: ${JPA_SHOW_URL:false}
+    properties:
+      hibernate:
+        format_sql: ${HIBERNATE_FORMAT_SQL:false}
+
+contact:
+  phone: +91-1234567891
+  email: connect@pandac.in
+  address: 123 Main Street, London, UK
