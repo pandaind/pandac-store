@@ -15,6 +15,19 @@ source .env
 
 echo "📋 Checking required tokens..."
 
+# Check JWT Secret
+if [ -z "$JWT_SECRET" ] || [ "$JWT_SECRET" = "YOUR_SECURE_JWT_SECRET_KEY_HERE_MINIMUM_32_CHARS" ]; then
+    echo "❌ JWT_SECRET is not set or using placeholder value"
+    echo "   Please update your JWT secret in .env (minimum 32 characters)"
+    MISSING_TOKENS=1
+else
+    if [ ${#JWT_SECRET} -lt 32 ]; then
+        echo "⚠️  JWT_SECRET should be at least 32 characters long for security"
+    else
+        echo "✅ JWT_SECRET is configured"
+    fi
+fi
+
 # Check Stripe API Key
 if [ -z "$STRIPE_API_KEY" ] || [ "$STRIPE_API_KEY" = "sk_test_YOUR_STRIPE_SECRET_KEY_HERE" ]; then
     echo "❌ STRIPE_API_KEY is not set or using placeholder value"

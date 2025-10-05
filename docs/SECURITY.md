@@ -30,7 +30,20 @@ STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_STRIPE_PUBLISHABLE_KEY_HERE
 
 **Important:** The publishable key is safe to expose in frontend code, but the secret key must remain on the backend only.
 
-#### 2. GitHub Personal Access Token
+#### 2. JWT Secret Key
+```bash
+# Replace with a secure secret key (minimum 32 characters)
+JWT_SECRET=YOUR_SECURE_JWT_SECRET_KEY_HERE_MINIMUM_32_CHARS
+```
+
+**How to generate a secure JWT secret:**
+1. Use a password manager or online tool to generate a random string (minimum 32 characters)
+2. Or use command line: `openssl rand -base64 32`
+3. Or use command line: `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64`
+
+**Important:** This secret is used to sign JWT tokens. Keep it secure and never expose it in client-side code.
+
+#### 3. GitHub Personal Access Token
 ```bash
 # Replace with your actual GitHub Personal Access Token
 GIT_TOKEN=github_pat_YOUR_GITHUB_TOKEN_HERE
@@ -94,6 +107,7 @@ Before running the application:
 - [ ] Replace `STRIPE_API_KEY` with your actual Stripe secret key (backend)
 - [ ] Replace `STRIPE_PUBLISHABLE_KEY` with your actual Stripe publishable key (backend)
 - [ ] Replace `VITE_STRIPE_PUBLISHABLE_KEY` with your actual Stripe publishable key (frontend)
+- [ ] Replace `JWT_SECRET` with a secure secret key (minimum 32 characters)
 - [ ] Replace `GIT_TOKEN` with your actual GitHub Personal Access Token  
 - [ ] Update database passwords from defaults
 - [ ] Verify `.env` files are in `.gitignore` and won't be committed

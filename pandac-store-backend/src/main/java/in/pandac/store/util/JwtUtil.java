@@ -22,8 +22,10 @@ public class JwtUtil {
 
     public String generateJwtToken(Authentication authentication){
         String jwt = "";
-        String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY,
-                ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+        String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY);
+        if (secret == null || secret.trim().isEmpty()) {
+            throw new IllegalStateException("JWT_SECRET environment variable is required but not set");
+        }
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Customer fetchedCustomer = (Customer) authentication.getPrincipal();
         jwt = Jwts.builder().issuer("PandaC Store").subject("JWT Token")

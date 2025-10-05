@@ -40,8 +40,10 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
                 // Extract the JWT token
                 String jwt = authHeader.substring(7); // Remove 'Bearer ' prefix
                 Environment env = getEnvironment();
-                String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY,
-                        ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+                String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY);
+                if (secret == null || secret.trim().isEmpty()) {
+                    throw new IllegalStateException("JWT_SECRET environment variable is required but not set");
+                }
                 SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
                 Claims claims = Jwts.parser().verifyWith(secretKey)
                         .build().parseSignedClaims(jwt).getPayload();
