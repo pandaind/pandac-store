@@ -8,10 +8,6 @@ This directory contains all documentation for the Pandac Store project.
 - **[Docker Setup](DOCKER.md)** - Complete Docker and Docker Compose setup guide
 - **[Security Guide](SECURITY.md)** - Environment variables and secrets management
 
-### API Documentation  
-- **[Discount API](DISCOUNT_API.md)** - Discount management endpoints
-- **[Image Upload API](IMAGE_UPLOAD_API.md)** - File upload and CDN integration
-
 ### General
 - **[Help](HELP.md)** - General help and troubleshooting
 

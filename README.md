@@ -98,8 +98,6 @@ For detailed documentation, see:
 - [Docker Setup](docs/DOCKER.md) - Complete Docker setup and deployment guide
 - [Nginx Proxy Configuration](docs/NGINX_PROXY.md) - Reverse proxy setup and configuration
 - [API Configuration Management](docs/API_CONFIG.md) - Centralized configuration system
-- [Image Upload API](docs/IMAGE_UPLOAD_API.md) - Product image management  
-- [Discount API](docs/DISCOUNT_API.md) - Discount and promotion system
 
 ## Development
 
