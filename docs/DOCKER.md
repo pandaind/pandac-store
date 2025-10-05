@@ -1,13 +1,30 @@
 # Docker Setup for Pandac Store
 
-This directory contains Docker configuration files to run the entire Pandac Store application locally.
+This directory contains Docker configuration files to run the entire Pandac Store application with nginx reverse proxy architecture.
 
 ## Prerequisites
 
 - Docker (version 20.10 or higher)
 - Docker Compose (version 2.0 or higher)
 - At least 4GB of available RAM
-- Ports 3000, 8080, and 3306 should be available
+- Port 80 should be available (single entry point!)
+
+## Architecture Overview
+
+```text
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│     Client      │    │  Nginx Proxy    │    │    Backend      │    │    Database     │
+│   (Browser)     │────│  (Port: 80)     │────│  (Spring Boot)  │────│     (MySQL)     │
+│                 │    │                 │    │   Internal      │    │   Port: 3306    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘
+                              │
+                              │
+                    ┌─────────────────┐
+                    │   Frontend      │
+                    │   (React/Nginx) │
+                    │   Internal      │
+                    └─────────────────┘
+```
 
 ## Quick Start
 
@@ -23,20 +40,15 @@ This directory contains Docker configuration files to run the entire Pandac Stor
    # See SECURITY.md for detailed instructions
    ```
 
-3. **Verify token configuration** (optional but recommended):
+3. **Start the application**:
    ```bash
-   ./check-tokens.sh
+   docker-compose up -d
    ```
 
-4. **Run the setup script**:
-   ```bash
-   ./setup.sh
-   ```
-
-5. **Access the application**:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8080
-   - Database: localhost:3306
+4. **Access the application**:
+   - **Application**: http://localhost (nginx reverse proxy)
+   - **API Endpoint**: http://localhost/api/v1
+   - **Database**: localhost:3306 (admin access only)
 
 ## Manual Setup
 
@@ -59,41 +71,78 @@ If you prefer to run commands manually:
 
 ## Services
 
+### Nginx Reverse Proxy
+
+- **Build**: Custom nginx configuration
+- **Port**: 80 (main entry point)
+- **Features**: 
+  - CORS handling
+  - API routing to backend
+  - Static file serving for frontend
+  - Production-ready headers
+
 ### MySQL Database
+
 - **Image**: mysql:8.0
-- **Port**: 3306
+- **Port**: 3306 (internal + admin access)
 - **Database**: pandac
 - **Username**: app
 - **Password**: password
 
 ### Spring Boot Backend
+
 - **Build**: Multi-stage Dockerfile
-- **Port**: 8080
+- **Port**: Internal only (accessed via nginx)
 - **Health Check**: /actuator/health
-- **Features**: Flyway migrations, JPA validation
+- **Features**: Flyway migrations, JPA validation, JWT auth
 
 ### React Frontend
+
 - **Build**: Multi-stage Dockerfile (Node.js + Nginx)
-- **Port**: 3000
-- **Features**: Production build, API proxy, security headers
+- **Port**: Internal only (served via nginx proxy)
+- **Features**: 
+  - Production build with Vite
+  - Centralized API configuration
+  - Security headers
 
 ## Useful Commands
 
 ### Development
+
 ```bash
+# Start all services
+docker-compose up -d
+
 # View all logs
 docker-compose logs -f
 
 # View specific service logs
+docker-compose logs -f nginx
 docker-compose logs -f backend
 docker-compose logs -f frontend
 docker-compose logs -f mysql
 
 # Restart a specific service
-docker-compose restart backend
+docker-compose restart nginx
 
 # Rebuild a specific service
-docker-compose up --build backend
+docker-compose up --build frontend
+
+# Check service status
+docker-compose ps
+```
+
+### Testing the Application
+
+```bash
+# Test nginx proxy
+curl -I http://localhost
+
+# Test API through proxy
+curl http://localhost/api/v1/products
+
+# Test API health
+curl http://localhost/api/v1/actuator/health
 ```
 
 ### Database Operations

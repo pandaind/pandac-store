@@ -7,11 +7,21 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json* ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including dev dependencies for build)
+RUN npm ci
 
 # Copy source code
 COPY . .
+
+# Set environment variables for build
+ENV VITE_API_BASE_URL=/api/v1
+ENV VITE_API_TIMEOUT=10000
+ENV VITE_STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_STRIPE_PUBLISHABLE_KEY_HERE
+ENV VITE_APP_NAME="Pandac Store"
+ENV VITE_APP_VERSION=1.0.0
+ENV VITE_ENABLE_ADMIN_FEATURES=true
+ENV VITE_ENABLE_STRIPE_PAYMENT=true
+ENV VITE_ENABLE_DEBUG_MODE=false
 
 # Build the application
 RUN npm run build
@@ -28,9 +38,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Expose port 80
 EXPOSE 80
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
+# Health check removed for simplicity
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]

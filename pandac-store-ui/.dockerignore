@@ -47,4 +47,4 @@ coverage/
 # Docker
 Dockerfile
 .dockerignore
-nginx.conf
+# nginx.conf  # Keep this for Docker builds

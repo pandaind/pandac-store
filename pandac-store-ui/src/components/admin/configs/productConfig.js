@@ -1,6 +1,7 @@
 import apiClient from '../../../api/apiClient.js';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { ENV } from '../../../config/index.js';
 
 // Product Management Configuration
 export const productConfig = {
@@ -171,7 +172,7 @@ export const productConfig = {
                 let csrfToken = Cookies.get("XSRF-TOKEN");
                 if (!csrfToken) {
                     // Fetch CSRF token if not available
-                    await axios.get(`${import.meta.env.VITE_API_BASE_URL}/csrf-token`, {
+                    await axios.get(`${ENV.API_BASE_URL}/csrf-token`, {
                         withCredentials: true,
                     });
                     csrfToken = Cookies.get("XSRF-TOKEN");
@@ -182,7 +183,7 @@ export const productConfig = {
                 
                 // Use raw axios to bypass apiClient interceptors but include CSRF token
                 const response = await axios.post(
-                    `${import.meta.env.VITE_API_BASE_URL}/products/upload-image`,
+                    `${ENV.API_BASE_URL}/products/upload-image`,
                     formData,
                     {
                         headers: {

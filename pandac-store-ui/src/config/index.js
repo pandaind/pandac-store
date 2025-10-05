@@ -3,10 +3,13 @@
  * Centralizes all environment variables and app settings
  */
 
+// Import from single API config source
+import { API_BASE_URL, API_TIMEOUT } from './api.js';
+
 // Environment Variables with Fallbacks
 export const ENV = {
-  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
-  API_TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT) || 10000,
+  API_BASE_URL,  // From single config source
+  API_TIMEOUT,   // From single config source
   
   STRIPE_PUBLISHABLE_KEY: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '',
   
